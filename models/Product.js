@@ -26,29 +26,29 @@ class Product {
   }
 
   static async removeProductById(id) {
-    new ObjectId(id);
-    await conn.db().collection("products").deleteOne({ _id: ObjectId });
+    await conn
+      .db()
+      .collection("products")
+      .deleteOne({ _id: new ObjectId(id) });
   }
-
   updateProduct(id) {
-    new ObjectId(id);
-
     conn
       .db()
       .collection("products")
-      .updateOne({ _id: ObjectId }, { $set: this });
+      .updateOne({ _id: new ObjectId(id) }, { $set: this });
     //esse $ se refere a um operador de mongo DB
 
     return;
   }
 
   static async getProductById(id) {
+    console.log(id);
+
     // os ids no mongo são diferentes de string, por isso é necessário pegar o id que vem na requisição e transformá-lo para esse objeto espacial para q assim possa realizar a consulta no banco
-    new ObjectId(id);
     const product = await conn
       .db()
       .collection("products")
-      .findOne({ _id: ObjectId });
+      .findOne({ _id: new ObjectId(id) });
 
     return product;
   }
